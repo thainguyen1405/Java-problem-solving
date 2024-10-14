@@ -11,6 +11,9 @@ public class Main {
 		String choice;
 		String bookInfo = null;
 		Scanner scan = new Scanner(System.in);
+        double price = 0;
+        String yesno = "";
+        double discount = 0;
 		
 		
 		while(true) {
@@ -47,6 +50,8 @@ public class Main {
 			while(true) {
 				if( (Blb.equalsIgnoreCase("BB")) || (Blb.equalsIgnoreCase("LB")) ) {
 				System.out.println("Got it!");
+		        BookstoreBook b = new BookstoreBook(author,title, isbn,price, yesno,discount);
+		        b.askingPrice();
 				break;
 				}
 				else {
@@ -55,6 +60,8 @@ public class Main {
 				}
 			}
 		}
+		
+		
 		
 		
 	}
@@ -128,24 +135,24 @@ class BookstoreBook extends Book {
 	
 	public void askingPrice(){
 	    Scanner scan = new Scanner(System.in); // Declare Scanner here
-	    System.out.println("Please enter the list price of " + title + "by " + author +": ");
-	    price = scan.nextInt();
+	    System.out.printf("Please enter the list price of " + title + " by " + author +": ");
+	    price = scan.nextDouble();
+	    scan.nextLine(); // Consume the leftover newline after nextDouble()
 	    
-	    System.out.println("Is it on sale?(y/n): ");
+	    System.out.printf("Is it on sale?(y/n): ");
 	    yesno = scan.nextLine();
+
+	     if (yesno.equalsIgnoreCase("y")) {
+	         System.out.printf("Deduction percentage: ");
+	         discount = scan.nextDouble();
+	     } else {
+	         discount = 0;
+	     }
 	    
-	    if(yesno == "y"){
-	        System.out.println("Deduction percentage: " + discount + "%");
-	        discount = scan.nextInt();
-	    }
-	    else{
-	        discount = 0;
-	    }
-	    
-	    finalprice = price - (price - (price*(discount/100)));
+	    finalprice = price - (price*(discount/100));
 	    
 	    System.out.println("Here is your bookstore book information: ");
-	    System.out.println("[" + isbn + "-" + title + " by " + author + ",$" + price + " listed for $" + finalprice);
+	    System.out.println("[" + isbn + "-" + title + " by " + author + ",$" + price + " listed for $" + String.format("%.2f", finalprice));
 	    
 	}
 	
