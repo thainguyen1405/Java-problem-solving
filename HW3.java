@@ -1,4 +1,6 @@
 import java.util.Scanner;
+import java.util.Random;
+
 
 public class Main {
 	public static void main(String args[]) {
@@ -173,11 +175,17 @@ class LibraryBook extends Book {
 	//Set & Get for at least 3 constructors
 	public LibraryBook(String author, String title, String isbn, String threeLetters, String c, String callNum) {
 		super(author, title, isbn);
-		this.floors = floors;
+		
+		Random rand = new Random();
+	    this.floors = rand.nextInt(100)+1;
 		this.threeLetters = threeLetters;
 		this.c = c;
 		this.callNum = callNum;
 	}
+	
+	 
+
+	
 	
 	
 	
