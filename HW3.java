@@ -9,7 +9,9 @@ public class Main {
 		
         //Loop yes/no
 		String choice;
+		String bookInfo = null;
 		Scanner scan = new Scanner(System.in);
+		
 		
 		while(true) {
 			
@@ -17,7 +19,7 @@ public class Main {
 			
 			if(choice.equalsIgnoreCase("yes")) {
 				System.out.printf("Please enter the author, title ad the isbn of the book separted by /: ");
-				String bookInfo = scan.nextLine();
+				bookInfo = scan.nextLine();
 				System.out.println("Got it!");
 				break;
 			}
@@ -30,14 +32,15 @@ public class Main {
 			}		
 		}
 		
-		String[] bookSeperate = bookInfo.split("/");
 		
-		String author = bookSeperate[0];
-		String title = bookSeperate[1];
-		String isbn = bookSeperate[2];
 		
 		//If the user said yes
 		if(choice.equalsIgnoreCase("yes")){
+		    String[] bookSeperate = bookInfo.split("/");
+		    String author = bookSeperate[0];
+		    String title = bookSeperate[1];
+		    String isbn = bookSeperate[2];
+		    
 			System.out.printf("Now, tell me if it is a bookstore book or a library book (enter BB for bookstore book and LB for library book: ");
 			String Blb = scan.nextLine();
 			
@@ -52,6 +55,8 @@ public class Main {
 				}
 			}
 		}
+		
+		
 	}
 }
 	
@@ -113,7 +118,7 @@ class BookstoreBook extends Book {
 	double finalprice;
 	
 	//Set & Get for at least 3 constructors
-	public BookstoreBook(String author, String title, String isbn, double price, boolean yesno, double discount) {
+	public BookstoreBook(String author, String title, String isbn, double price, String yesno, double discount) {
 		super(author, title, isbn);
 		this.price = price;
 		this.yesno = yesno;
@@ -122,6 +127,7 @@ class BookstoreBook extends Book {
 	}
 	
 	public void askingPrice(){
+	    Scanner scan = new Scanner(System.in); // Declare Scanner here
 	    System.out.println("Please enter the list price of " + title + "by " + author +": ");
 	    price = scan.nextInt();
 	    
@@ -136,7 +142,7 @@ class BookstoreBook extends Book {
 	        discount = 0;
 	    }
 	    
-	    finalprice = price - (price - (price*(discount/100));
+	    finalprice = price - (price - (price*(discount/100)));
 	    
 	    System.out.println("Here is your bookstore book information: ");
 	    System.out.println("[" + isbn + "-" + title + " by " + author + ",$" + price + " listed for $" + finalprice);
