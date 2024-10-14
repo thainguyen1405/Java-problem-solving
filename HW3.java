@@ -168,7 +168,7 @@ class BookstoreBook extends Book {
 //___________________________
 class LibraryBook extends Book {
 	private int floors;
-	private String threeLetters;
+	private String[] threeLetters;
 	private String c;
 	private String callNum;
 	
@@ -178,13 +178,12 @@ class LibraryBook extends Book {
 		
 		Random rand = new Random();
 	    this.floors = rand.nextInt(100)+1;
-		this.threeLetters = threeLetters;
-		this.c = c;
+	    
+	    
+		this.threeLetters[0] = author.substring(0,3);
+		this.c = isbn.substring(isbn.length()-1);
 		this.callNum = callNum;
 	}
-	
-	 
-
 	
 	
 	
