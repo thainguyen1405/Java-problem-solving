@@ -41,7 +41,9 @@ public class Main {
 		if(choice.equalsIgnoreCase("yes")){
 		    String[] bookSeperate = bookInfo.split("/");
 		    String author = bookSeperate[0];
+		    author = author.toUpperCase();
 		    String title = bookSeperate[1];
+		    title = title.toUpperCase();
 		    String isbn = bookSeperate[2];
 		    
 			System.out.printf("Now, tell me if it is a bookstore book or a library book (enter BB for bookstore book and LB for library book: ");
@@ -152,7 +154,7 @@ class BookstoreBook extends Book {
 	    finalprice = price - (price*(discount/100));
 	    
 	    System.out.println("Here is your bookstore book information: ");
-	    System.out.println("[" + isbn + "-" + title + " by " + author + ",$" + price + " listed for $" + String.format("%.2f", finalprice));
+	    System.out.println("[" + isbn + "-" + title + " by " + author + ", $" + price + " listed for $" + String.format("%.2f", finalprice) + "]");
 	    
 	}
 	
