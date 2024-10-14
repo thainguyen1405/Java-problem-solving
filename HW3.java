@@ -47,11 +47,14 @@ public class Main {
 			String Blb = scan.nextLine();
 			
 			while(true) {
-				if( (Blb.equalsIgnoreCase("BB")) || (Blb.equalsIgnoreCase("LB")) ) {
+				if( (Blb.equalsIgnoreCase("BB"))  ) {
 				System.out.println("Got it!");
 		        BookstoreBook b = new BookstoreBook(author,title, isbn,price, yesno,discount);
 		        b.askingPrice();
 				break;
+				}
+				else if( (Blb.equalsIgnoreCase("LB")) ){
+				    //write something
 				}
 				else {
 					System.out.print("Oops! That's not a valid entry. Please try again: ");
