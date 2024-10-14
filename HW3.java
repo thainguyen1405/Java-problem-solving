@@ -4,27 +4,25 @@ public class Main {
 	public static void main(String args[]) {
         
         System.out.println("Welcome to the book program!");
-		System.out.printf("Would you like to create a book object? (yes/no): ");
-		
-		
-        //Loop yes/no
-		String choice;
-		String bookInfo = null;
-		Scanner scan = new Scanner(System.in);
+        
+        String choice;
+        Scanner scan = new Scanner(System.in);
+        String bookInfo = null;
         double price = 0;
         String yesno = "";
         double discount = 0;
-		
-		
-		while(true) {
-			
-			choice = scan.nextLine();
+
+        
+        while(true){
+            System.out.printf("Would you like to create a book object? (yes/no): ");
+            choice = scan.nextLine();
+
+            
 			
 			if(choice.equalsIgnoreCase("yes")) {
 				System.out.printf("Please enter the author, title ad the isbn of the book separted by /: ");
 				bookInfo = scan.nextLine();
 				System.out.println("Got it!");
-				break;
 			}
 			else if(choice.equalsIgnoreCase("no")) {
 				System.out.println("Sure!");
@@ -33,7 +31,6 @@ public class Main {
 			else {
 				System.out.printf("I'm sorry but " + choice + " isn't a valid answer. Please enter either yes or no: ");
 			}		
-		}
 		
 		
 		
@@ -62,11 +59,8 @@ public class Main {
 				}
 			}
 		}
-		
-		
-		
-		
 	}
+}
 }
 	
 
