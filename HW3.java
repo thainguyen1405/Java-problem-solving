@@ -165,13 +165,21 @@ class BookstoreBook extends Book {
 	
 //___________________________
 class LibraryBook extends Book {
+	private int floors;
+	private String threeLetters;
+	private String c;
 	private String callNum;
 	
 	//Set & Get for at least 3 constructors
-	public LibraryBook(String author, String title, String isbn, String callNum) {
+	public LibraryBook(String author, String title, String isbn, String threeLetters, String c, String callNum) {
 		super(author, title, isbn);
+		this.floors = floors;
+		this.threeLetters = threeLetters;
+		this.c = c;
 		this.callNum = callNum;
 	}
+	
+	
 	
 	//Override
 	public String toString(){
