@@ -30,6 +30,12 @@ public class Main {
 			}		
 		}
 		
+		String[] bookSeperate = bookInfo.split("/");
+		
+		String author = bookSeperate[0];
+		String title = bookSeperate[1];
+		String isbn = bookSeperate[2];
+		
 		//If the user said yes
 		if(choice.equalsIgnoreCase("yes")){
 			System.out.printf("Now, tell me if it is a bookstore book or a library book (enter BB for bookstore book and LB for library book: ");
@@ -41,11 +47,12 @@ public class Main {
 				break;
 				}
 				else {
-					System.out.println("Oops! That's not a valid entry. Please try again: ");
+					System.out.print("Oops! That's not a valid entry. Please try again: ");
 					Blb = scan.nextLine();
 				}
 			}
 		}
+	}
 }
 	
 
@@ -92,7 +99,7 @@ abstract class Book {
     }
     
  // Abstract method that subclasses will implement
-    public abstract String toString() {
+    public String toString() {
     	return "[" + isbn + "-" + title + "by" + author + "]";
     }
     
@@ -101,7 +108,7 @@ abstract class Book {
 //___________________________
 class BookstoreBook extends Book {
 	private double price;
-	private boolean yesno;
+	private String yesno;
 	private double discount;
 	double finalprice;
 	
@@ -111,10 +118,29 @@ class BookstoreBook extends Book {
 		this.price = price;
 		this.yesno = yesno;
 		this.discount = discount;
-		
-		if(yesno == true) {
-			finalprice = price - (price * (discount/100));
-		}
+		this.finalprice = finalprice;
+	}
+	
+	public void askingPrice(){
+	    System.out.println("Please enter the list price of " + title + "by " + author +": ");
+	    price = scan.nextInt();
+	    
+	    System.out.println("Is it on sale?(y/n): ");
+	    yesno = scan.nextLine();
+	    
+	    if(yesno == "y"){
+	        System.out.println("Deduction percentage: " + discount + "%");
+	        discount = scan.nextInt();
+	    }
+	    else{
+	        discount = 0;
+	    }
+	    
+	    finalprice = price - (price - (price*(discount/100));
+	    
+	    System.out.println("Here is your bookstore book information: ");
+	    System.out.println("[" + isbn + "-" + title + " by " + author + ",$" + price + " listed for $" + finalprice);
+	    
 	}
 	
 	//Override
@@ -135,32 +161,8 @@ class LibraryBook extends Book {
 		this.callNum = callNum;
 	}
 	
-	
-		
-		
-		
-	//Setter & Getter for author, title & isbn
-	public String setAuthor(String author) {
-		this.author = author;
-	}
-	public String getAuthor() {
-		return author;
-	}
-	public String setTitle(String title) {
-		this.title = title;
-	}
-	public String getTitle(String title) {
-		return title;
-	}
-	public String setIsbn(String isbn) {
-		this.isbn = isbn;
-	}
-	public String getIsbn(String isbn) {
-		return isbn;
-	}
-		
 	//Override
-	public String toString() {
+	public String toString(){
 		return "[" + isbn + "-" + title + "by" + author + "]";
 	}
 }
