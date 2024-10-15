@@ -10,13 +10,18 @@ public class Main {
         String choice;
         Scanner scan = new Scanner(System.in);
         String bookInfo = null;
+        
+        //Variables for BookstoreBook
         double price = 0;
         String yesno = "";
         double discount = 0;
+        int bookCount = 0;
         
+        //Variables for LibraryBook
         String threeLetters = "";
         String c = "";
         String callNum = "";
+        int libraryCount = 0;
 
         
         while(true){
@@ -57,10 +62,13 @@ public class Main {
 				System.out.println("Got it!");
 		        BookstoreBook b = new BookstoreBook(author,title, isbn,price, yesno,discount);
 		        b.askingPrice();
+		        bookCount++;
 				break;
 				}
 				else if( (Blb.equalsIgnoreCase("LB")) ){
 				    LibraryBook l = new LibraryBook(author, title, isbn, threeLetters, c, callNum);
+				    l.toString();
+				    libraryCount++;
 				}
 				else {
 					System.out.print("Oops! That's not a valid entry. Please try again: ");
@@ -69,6 +77,9 @@ public class Main {
 			}
 		}
 	}
+	
+	System.out.println("Here are all your books...");
+	System.out.println("Library Books");
 }
 }
 	
