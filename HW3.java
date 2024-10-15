@@ -148,28 +148,30 @@ class BookstoreBook extends Book {
 		this.finalprice = finalprice;
 	}
 	
-	public void askingPrice(){
-	    Scanner scan = new Scanner(System.in); // Declare Scanner here
-	    System.out.printf("Please enter the list price of " + title + " by " + author +": ");
-	    price = scan.nextDouble();
-	    scan.nextLine(); // Consume the leftover newline after nextDouble()
-	    
-	    System.out.printf("Is it on sale?(y/n): ");
-	    yesno = scan.nextLine();
+public void askingPrice() {
+    Scanner scan = new Scanner(System.in); // Declare Scanner here
+    System.out.printf("Please enter the list price of %s by %s: ", title, author);
+    
+    price = scan.nextDouble();
+    scan.nextLine();  // Consume the leftover newline after nextDouble()
 
-	     if (yesno.equalsIgnoreCase("y")) {
-	         System.out.printf("Deduction percentage: ");
-	         discount = scan.nextDouble();
-	     } else {
-	         discount = 0;
-	     }
-	    
-	    finalprice = price - (price*(discount/100));
-	    
-	    System.out.println("Here is your bookstore book information: ");
-	    System.out.println("[" + isbn + "-" + title + " by " + author + ", $" + price + " listed for $" + String.format("%.2f", finalprice) + "]");
-	    
-	}
+    System.out.printf("Is it on sale? (y/n): ");
+    yesno = scan.nextLine();  // Capture 'y' or 'n' for sale status
+    
+    if (yesno.equalsIgnoreCase("y")) {
+        System.out.printf("Deduction percentage: ");
+        discount = scan.nextDouble();
+        scan.nextLine();  // Consume the leftover newline after nextDouble()
+    } else {
+        discount = 0;
+    }
+
+    finalprice = price - (price * (discount / 100));
+
+    System.out.println("Here is your bookstore book information: ");
+    System.out.println("[" + isbn + "-" + title + " by " + author + ", $" + price + " listed for $" + String.format("%.2f", finalprice) + "]");
+}
+
 	
 	//Override
 	public String toString() {
