@@ -1,9 +1,12 @@
 import java.util.Scanner;
 import java.util.Random;
 
+
+
 public class Main {
     public static void main(String args[]) {
         
+        // Welcome the user
         System.out.println("Welcome to the book program!");
         
         String choice;
@@ -21,16 +24,20 @@ public class Main {
         String c = "";
         String callNum = "";
         int libraryCount = 0;
-
-        // Create a BookList instance to store books
+        
+        
+        // BookList instance to store books
         BookList bookList = new BookList();
-
+        
+        // While loop for asking 
         while(true) {
             System.out.printf("Would you like to create a book object? (yes/no): ");
             
+            // Check if user's input: yes/no/invalid
             while(true) {
                 choice = scan.nextLine();
-
+                
+                // Yes case
                 if (choice.equalsIgnoreCase("yes")) {
                     System.out.println("");
                     System.out.printf("Please enter the author, title and the isbn of the book separated by /: ");
@@ -38,14 +45,17 @@ public class Main {
                     System.out.println("Got it!");
                     break;  // Exit this while loop after input is gathered
                 } 
+                // No case
                 else if (choice.equalsIgnoreCase("no")) {
                     System.out.println("Sure!"); 
-                    break;  // Just break the loop, don’t return from the program
+                    break;  //Break the loop
                 } 
+                // Invalid case
                 else {
                     System.out.printf("I'm sorry but %s isn't a valid answer. Please enter either yes or no: ", choice);
                 }
             }
+            
             
             // If the user said yes
             if (choice.equalsIgnoreCase("yes")) {
@@ -56,11 +66,12 @@ public class Main {
                 
                 System.out.printf("Now, tell me if it is a bookstore book or a library book (enter BB for bookstore book and LB for library book): ");
                 
+                // Check if user's input: BB/LB/invalid
                 while(true) {
                     String Blb = scan.nextLine();
                     
+                    //BookstoreBook
                     if (Blb.equalsIgnoreCase("BB")) {
-                        // Handle BookstoreBook creation
                         System.out.println("Got it");
                         BookstoreBook b = new BookstoreBook(author, title, isbn, price, yesno, discount);
                         b.askingPrice();
@@ -68,31 +79,35 @@ public class Main {
                         bookCount++;
                         break;
                     } 
+                    // LibraryBook
                     else if (Blb.equalsIgnoreCase("LB")) {
                         // Handle LibraryBook creation
                         System.out.println("Got it!");
                         LibraryBook l = new LibraryBook(author, title, isbn, threeLetters, c, callNum);
                         System.out.println("");
+                        System.out.println("Here is your bookstore book information: ");
                         System.out.println(l.toString());
                         System.out.println("");
                         bookList.addBook(l);  // Add book to BookList
                         libraryCount++;
                         break;
                     } 
+                    // Invalid
                     else {
                         System.out.print("Oops! That's not a valid entry. Please try again: ");
                     }
                 }
             } 
+            //Exit loop when user said no book created
             else if (choice.equalsIgnoreCase("no")) {
-                break;  // Exit the main loop to print the books after the user is done
+                break;
             }
         }
 
-        // After the loop ends, display all books
+        // Display all books from list after all
         System.out.println("");
         System.out.println("Here are all your books...");
-        bookList.displayBooks();  // Display all books from BookList
+        bookList.displayBooks();
     }
 }
 
@@ -167,14 +182,21 @@ class BookstoreBook extends Book {
         scan.nextLine();  // Consume the leftover newline after nextDouble()
 
         System.out.printf("Is it on sale? (y/n): ");
-        yesno = scan.nextLine();  // Capture 'y' or 'n' for sale status
-        
-        if (yesno.equalsIgnoreCase("y")) {
-            System.out.printf("Deduction percentage: ");
-            discount = scan.nextLine();
-            System.out.println("Got it!");
-        } else {
-            discount = "0";
+        while(true){
+            yesno = scan.nextLine();  // Capture 'y' or 'n' for sale status
+            if (yesno.equalsIgnoreCase("y")) {
+                System.out.printf("Deduction percentage: ");
+                discount = scan.nextLine();
+                System.out.println("Got it!");
+                break;
+            } 
+            else if (yesno.equalsIgnoreCase("n")){
+                discount = "0";
+                break;
+            }
+            else{
+                System.out.printf("I'm sorry but %s isn't a valid answer. Please enter either yes or no: ", yesno);
+            }
         }
         
         if (discount.contains("%")) {
@@ -182,7 +204,6 @@ class BookstoreBook extends Book {
         }
         
         double updateDiscount = Double.parseDouble(discount);
-
         finalprice = price - (price * (updateDiscount / 100));
         
         System.out.println("");
@@ -190,7 +211,7 @@ class BookstoreBook extends Book {
         System.out.println("[" + isbn + "-" + title + " by " + author + ", $" + price + " listed for $" + String.format("%.2f", finalprice) + "]");
         System.out.println("");
     }
-
+        
     // Override
     public String toString() {
         return "[" + isbn + "-" + title + " by " + author + ", $" + price + " listed for $" + finalprice + "]";
