@@ -1,8 +1,6 @@
 import java.util.Scanner;
 import java.util.Random;
 
-
-
 public class Main {
     public static void main(String args[]) {
         
@@ -24,7 +22,6 @@ public class Main {
         String c = "";
         String callNum = "";
         int libraryCount = 0;
-        
         
         // BookList instance to store books
         BookList bookList = new BookList();
@@ -56,7 +53,6 @@ public class Main {
                 }
             }
             
-            
             // If the user said yes
             if (choice.equalsIgnoreCase("yes")) {
                 String[] bookSeperate = bookInfo.split("/");
@@ -70,7 +66,7 @@ public class Main {
                 while(true) {
                     String Blb = scan.nextLine();
                     
-                    //BookstoreBook
+                    // BookstoreBook
                     if (Blb.equalsIgnoreCase("BB")) {
                         System.out.println("Got it");
                         BookstoreBook b = new BookstoreBook(author, title, isbn, price, yesno, discount);
@@ -85,7 +81,7 @@ public class Main {
                         System.out.println("Got it!");
                         LibraryBook l = new LibraryBook(author, title, isbn, threeLetters, c, callNum);
                         System.out.println("");
-                        System.out.println("Here is your bookstore book information: ");
+                        System.out.println("Here is your library book information: ");
                         System.out.println(l.toString());
                         System.out.println("");
                         bookList.addBook(l);  // Add book to BookList
@@ -98,7 +94,7 @@ public class Main {
                     }
                 }
             } 
-            //Exit loop when user said no book created
+            // Exit loop when user said no book created
             else if (choice.equalsIgnoreCase("no")) {
                 break;
             }
@@ -111,12 +107,12 @@ public class Main {
     }
 }
 
-//___________________________
+// Class shared by both types of books
 abstract class Book {
-    // Common fields shared by both types of books
-    protected String author; 
-    protected String title;
-    protected String isbn;
+    // Private fields shared by both types of books
+    private String author; 
+    private String title;
+    private String isbn;
     
     // Constructor to initialize common fields
     public Book(String author, String title, String isbn) {
@@ -125,11 +121,10 @@ abstract class Book {
         this.isbn = isbn;
     }
 
-    // Common setter and getter methods for author, title, and isbn
+    // Setter & getter for common field: author, title, isbn.
     public void setAuthor(String author) {
         this.author = author;
     }
-    
     public String getAuthor() {
         return author;
     }
@@ -137,7 +132,6 @@ abstract class Book {
     public void setTitle(String title) {
         this.title = title;
     }
-
     public String getTitle() {
         return title;
     }
@@ -145,26 +139,26 @@ abstract class Book {
     public void setIsbn(String isbn) {
         this.isbn = isbn;
     }
-
     public String getIsbn() {
         return isbn;
     }
     
-    // Abstract method that subclasses will implement
-    public String toString() {
-        return "[" + isbn + "-" + title + " by " + author + "]";
-    }
+    // Abstract method to implement subclasses
+    public abstract String toString();
 }
 
-//___________________________
+
+// BookstoreBook type
 class BookstoreBook extends Book {
     private double price;
     private String yesno;
     private String discount;
+    
+    // Additional fields
     double updateDiscount;
     double finalprice;
     
-    // Set & Get for at least 3 constructors
+    // Constructor BookstoreBook
     public BookstoreBook(String author, String title, String isbn, double price, String yesno, String discount) {
         super(author, title, isbn);
         this.price = price;
@@ -174,16 +168,18 @@ class BookstoreBook extends Book {
         this.finalprice = finalprice;
     }
     
+    // This method asking for BookstoreBook
     public void askingPrice() {
-        Scanner scan = new Scanner(System.in); // Declare Scanner here
-        System.out.printf("Please enter the list price of %s by %s: ", title, author);
+        Scanner scan = new Scanner(System.in);
+        System.out.printf("Please enter the list price of %s by %s: ", getTitle(), getAuthor());
         
         price = scan.nextDouble();
         scan.nextLine();  // Consume the leftover newline after nextDouble()
 
         System.out.printf("Is it on sale? (y/n): ");
+        //Handle the yes/no/invalid case
         while(true){
-            yesno = scan.nextLine();  // Capture 'y' or 'n' for sale status
+            yesno = scan.nextLine(); 
             if (yesno.equalsIgnoreCase("y")) {
                 System.out.printf("Deduction percentage: ");
                 discount = scan.nextLine();
@@ -195,10 +191,11 @@ class BookstoreBook extends Book {
                 break;
             }
             else{
-                System.out.printf("I'm sorry but %s isn't a valid answer. Please enter either yes or no: ", yesno);
+                System.out.printf("I'm sorry but %s isn't a valid answer. Please enter either y or n: ", yesno);
             }
         }
         
+        // Deal with the "%" symbol
         if (discount.contains("%")) {
             discount = discount.replace("%", "");
         }
@@ -206,19 +203,20 @@ class BookstoreBook extends Book {
         double updateDiscount = Double.parseDouble(discount);
         finalprice = price - (price * (updateDiscount / 100));
         
+        // Print the result
         System.out.println("");
         System.out.println("Here is your bookstore book information: ");
-        System.out.println("[" + isbn + "-" + title + " by " + author + ", $" + price + " listed for $" + String.format("%.2f", finalprice) + "]");
+        System.out.println("[" + getIsbn() + "-" + getTitle() + " by " + getAuthor() + ", $" + price + " listed for $" + String.format("%.2f", finalprice) + "]");
         System.out.println("");
     }
-        
-    // Override
+    
+    @Override
     public String toString() {
-        return "[" + isbn + "-" + title + " by " + author + ", $" + price + " listed for $" + finalprice + "]";
+        return "[" + getIsbn() + " - " + getTitle() + " by " + getAuthor() + ", $" + price + " listed for $" + finalprice + "]";
     }
 }
 
-//___________________________
+// LibraryBook type
 class LibraryBook extends Book {
     private int floors;
     private String strFloors;
@@ -226,18 +224,17 @@ class LibraryBook extends Book {
     private String c;
     private String callNum;
     
-    // Constructor
+    // Constructor for LibraryBook
     public LibraryBook(String author, String title, String isbn, String threeLetters, String c, String callNum) {
         super(author, title, isbn);
         
+        // Assign random number to floors
         Random rand = new Random();
         this.floors = rand.nextInt(100) + 1;
         strFloors = String.format("%d", floors);
         
-        // Initialize the threeLetters array with size 1 (or any other size if needed)
-        this.threeLetters = new String[1]; 
-        
         // Assign the first three letters of the author to the array
+        this.threeLetters = new String[1];
         this.threeLetters[0] = author.substring(0, 3);
         
         // Get the last character of the ISBN
@@ -247,25 +244,25 @@ class LibraryBook extends Book {
         this.callNum = strFloors + "." + this.threeLetters[0] + "." + this.c;
     }
     
-    // Override toString method
     @Override
     public String toString() {
-        return "[" + isbn + "-" + title + " by " + author + "-" + callNum + "]";
+        return "[" + getIsbn() + " - " + getTitle() + " by " + getAuthor() + "-" + callNum + "]";
     }
 }
 
-//___________________________
+// BookList array
 class BookList {
     private Book[] list;
     private int count;
     
     public BookList() {
         list = new Book[100];
-        count = 0; // Initialize count to 0
+        count = 0;
     }
     
+    // Book array availability
     public void addBook(Book book) {
-        if (count < list.length) {
+        if (count < 100) {
             list[count++] = book;
         } else {
             System.out.println("The list is full!");
@@ -276,7 +273,7 @@ class BookList {
         int libraryBookCount = 0;
         int bookstoreBookCount = 0;
         
-        // First count the number of books in each category
+        // Count the number of books in each category
         for (int i = 0; i < count; i++) {
             if (list[i] instanceof LibraryBook) {
                 libraryBookCount++;
@@ -286,7 +283,7 @@ class BookList {
             }
         }
         
-        // Display the library books with the count
+        // Display the library books
         System.out.println("Library Books (" + libraryBookCount + "):");
         for (int i = 0; i < count; i++) {
             if (list[i] instanceof LibraryBook) {
@@ -296,7 +293,7 @@ class BookList {
         }
         System.out.println("_ _ _ _");
         
-        // Display the bookstore books with the count
+        // Display the bookstore books
         System.out.println("\nBookstore Books (" + bookstoreBookCount + "):");
         for (int i = 0; i < count; i++) {
             if (list[i] instanceof BookstoreBook) {
