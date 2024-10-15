@@ -3,7 +3,7 @@ import java.util.Random;
 
 
 public class Main {
-	public static void main(String args[]) {
+    public static void main(String args[]) {
         
         System.out.println("Welcome to the book program!");
         
@@ -23,64 +23,63 @@ public class Main {
         String callNum = "";
         int libraryCount = 0;
 
-        
+        // Create a BookList instance to store books
+        BookList bookList = new BookList();
+
         while(true){
             System.out.printf("Would you like to create a book object? (yes/no): ");
             choice = scan.nextLine();
 
-            
-			
-			if(choice.equalsIgnoreCase("yes")) {
-				System.out.printf("Please enter the author, title ad the isbn of the book separted by /: ");
-				bookInfo = scan.nextLine();
-				System.out.println("Got it!");
-			}
-			else if(choice.equalsIgnoreCase("no")) {
-				System.out.println("Sure!");
-				break;
-			}
-			else {
-				System.out.printf("I'm sorry but " + choice + " isn't a valid answer. Please enter either yes or no: ");
-			}		
-		
-		
-		
-		//If the user said yes
-		if(choice.equalsIgnoreCase("yes")){
-		    String[] bookSeperate = bookInfo.split("/");
-		    String author = bookSeperate[0];
-		    author = author.toUpperCase();
-		    String title = bookSeperate[1];
-		    title = title.toUpperCase();
-		    String isbn = bookSeperate[2];
-		    
-			System.out.printf("Now, tell me if it is a bookstore book or a library book (enter BB for bookstore book and LB for library book: ");
-			String Blb = scan.nextLine();
-			
-			while(true) {
-				if( (Blb.equalsIgnoreCase("BB"))  ) {
-				System.out.println("Got it!");
-		        BookstoreBook b = new BookstoreBook(author,title, isbn,price, yesno,discount);
-		        b.askingPrice();
-		        bookCount++;
-				break;
-				}
-				else if( (Blb.equalsIgnoreCase("LB")) ){
-				    LibraryBook l = new LibraryBook(author, title, isbn, threeLetters, c, callNum);
-				    l.toString();
-				    libraryCount++;
-				}
-				else {
-					System.out.print("Oops! That's not a valid entry. Please try again: ");
-					Blb = scan.nextLine();
-				}
-			}
-		}
-	}
-	
-	System.out.println("Here are all your books...");
-	System.out.println("Library Books");
-}
+            if(choice.equalsIgnoreCase("yes")) {
+                System.out.printf("Please enter the author, title and the isbn of the book separated by /: ");
+                bookInfo = scan.nextLine();
+                System.out.println("Got it!");
+            }
+            else if(choice.equalsIgnoreCase("no")) {
+                System.out.println("Sure!");
+                break;
+            }
+            else {
+                System.out.printf("I'm sorry but %s isn't a valid answer. Please enter either yes or no: ", choice);
+                continue;
+            }
+
+            // If the user said yes
+            if(choice.equalsIgnoreCase("yes")){
+                String[] bookSeperate = bookInfo.split("/");
+                String author = bookSeperate[0];
+                author = author.toUpperCase();
+                String title = bookSeperate[1];
+                title = title.toUpperCase();
+                String isbn = bookSeperate[2];
+                
+                System.out.printf("Now, tell me if it is a bookstore book or a library book (enter BB for bookstore book and LB for library book): ");
+                String Blb = scan.nextLine();
+                
+                if (Blb.equalsIgnoreCase("BB")) {
+                    // Handle BookstoreBook creation
+                    BookstoreBook b = new BookstoreBook(author, title, isbn, price, yesno, discount);
+                    b.askingPrice();
+                    bookList.addBook(b);  // Add book to BookList
+                    bookCount++;
+                } 
+                else if (Blb.equalsIgnoreCase("LB")) {
+                    // Handle LibraryBook creation
+                    System.out.println("Got it!");
+                    LibraryBook l = new LibraryBook(author, title, isbn, threeLetters, c, callNum);
+                    System.out.println(l.toString());
+                    bookList.addBook(l);  // Add book to BookList
+                    libraryCount++;
+                } 
+                else {
+                    System.out.print("Oops! That's not a valid entry. Please try again: ");
+                }
+            }
+        }
+
+        System.out.println("Here are all your books...");
+        bookList.displayBooks(); // Display all books from BookList
+    }
 }
 	
 
@@ -182,42 +181,77 @@ class BookstoreBook extends Book {
 	
 //___________________________
 class LibraryBook extends Book {
-	private int floors;
-	private String strFloors;
-	private String[] threeLetters;
-	private String c;
-	private String callNum;
-	
-	
-	//Set & Get for at least 3 constructors
-	public LibraryBook(String author, String title, String isbn, String threeLetters, String c, String callNum) {
-		super(author, title, isbn);
-		
-		Random rand = new Random();
-	    this.floors = rand.nextInt(100)+1;
-	    strFloors = String.format("%d", floors);
-	    
-		this.threeLetters[0] = author.substring(0,3);
-		this.c = isbn.substring(isbn.length()-1);
-		this.callNum = callNum;
-		
-		callNum = strFloors + "." + threeLetters + "." + c;
-	}
-	
-	
-	
-	
-	//Override
-	public String toString(){
-		return "[" + isbn + "-" + title + "by" + author + "-" + callNum;
-	}
+    private int floors;
+    private String strFloors;
+    private String[] threeLetters;
+    private String c;
+    private String callNum;
+    
+    // Constructor
+    public LibraryBook(String author, String title, String isbn, String threeLetters, String c, String callNum) {
+        super(author, title, isbn);
+        
+        Random rand = new Random();
+        this.floors = rand.nextInt(100) + 1;
+        strFloors = String.format("%d", floors);
+        
+        // Initialize the threeLetters array with size 1 (or any other size if needed)
+        this.threeLetters = new String[1]; 
+        
+        // Assign the first three letters of the author to the array
+        this.threeLetters[0] = author.substring(0, 3);
+        
+        // Get the last character of the ISBN
+        this.c = isbn.substring(isbn.length() - 1);
+        
+        // Generate the call number
+        this.callNum = strFloors + "." + this.threeLetters[0] + "." + this.c;
+    }
+    
+    // Override toString method
+    @Override
+    public String toString() {
+        return "[" + isbn + "-" + title + " by " + author + "-" + callNum + "]";
+    }
 }
+
 
 //___________________________
 class BookList {
 	private Book[] list;
+	private int count;
 	public BookList() {
 		list = new Book[100];
-		// Additional code goes here if needed...
+		count++;
 	}
+	
+	 public void addBook(Book book) {
+        if (count < list.length) {
+            list[count++] = book;
+        } else {
+            System.out.println("The list is full!");
+        }
+    }
+    
+     public void displayBooks() {
+        int libraryBookCount = 0;
+        int bookstoreBookCount = 0;
+
+        System.out.println("Library Books:");
+        for (int i = 0; i < count; i++) {
+            if (list[i] instanceof LibraryBook) {
+                System.out.println(list[i]);
+                libraryBookCount++;
+            }
+        }
+
+        System.out.println("\nBookstore Books:");
+        for (int i = 0; i < count; i++) {
+            if (list[i] instanceof BookstoreBook) {
+                System.out.println(list[i]);
+                bookstoreBookCount++;
+            }
+        }
+     }
+
 }
