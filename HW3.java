@@ -32,6 +32,7 @@ public class Main {
                 choice = scan.nextLine();
 
                 if (choice.equalsIgnoreCase("yes")) {
+                    System.out.println("");
                     System.out.printf("Please enter the author, title and the isbn of the book separated by /: ");
                     bookInfo = scan.nextLine();
                     System.out.println("Got it!");
@@ -43,7 +44,6 @@ public class Main {
                 } 
                 else {
                     System.out.printf("I'm sorry but %s isn't a valid answer. Please enter either yes or no: ", choice);
-                    System.out.println("");
                 }
             }
             
@@ -74,6 +74,7 @@ public class Main {
                         LibraryBook l = new LibraryBook(author, title, isbn, threeLetters, c, callNum);
                         System.out.println("");
                         System.out.println(l.toString());
+                        System.out.println("");
                         bookList.addBook(l);  // Add book to BookList
                         libraryCount++;
                         break;
@@ -89,6 +90,7 @@ public class Main {
         }
 
         // After the loop ends, display all books
+        System.out.println("");
         System.out.println("Here are all your books...");
         bookList.displayBooks();  // Display all books from BookList
     }
@@ -170,6 +172,7 @@ class BookstoreBook extends Book {
         if (yesno.equalsIgnoreCase("y")) {
             System.out.printf("Deduction percentage: ");
             discount = scan.nextLine();
+            System.out.println("Got it!");
         } else {
             discount = "0";
         }
@@ -281,5 +284,6 @@ class BookList {
             }
         }
         System.out.println("_ _ _ _");
+        System.out.println("Take care now!");
     }
 }
