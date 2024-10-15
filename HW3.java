@@ -14,7 +14,7 @@ public class Main {
         //Variables for BookstoreBook
         double price = 0;
         String yesno = "";
-        double discount = 0;
+        String discount = "";
         int bookCount = 0;
         
         //Variables for LibraryBook
@@ -142,15 +142,17 @@ abstract class Book {
 class BookstoreBook extends Book {
 	private double price;
 	private String yesno;
-	private double discount;
+	private String discount;
+	double updateDiscount;
 	double finalprice;
 	
 	//Set & Get for at least 3 constructors
-	public BookstoreBook(String author, String title, String isbn, double price, String yesno, double discount) {
+	public BookstoreBook(String author, String title, String isbn, double price, String yesno, String discount) {
 		super(author, title, isbn);
 		this.price = price;
 		this.yesno = yesno;
 		this.discount = discount;
+		this.updateDiscount = updateDiscount;
 		this.finalprice = finalprice;
 	}
 	
@@ -164,15 +166,23 @@ public void askingPrice() {
     System.out.printf("Is it on sale? (y/n): ");
     yesno = scan.nextLine();  // Capture 'y' or 'n' for sale status
     
+    
     if (yesno.equalsIgnoreCase("y")) {
         System.out.printf("Deduction percentage: ");
-        discount = scan.nextDouble();
+        discount = scan.nextLine();
         scan.nextLine();  // Consume the leftover newline after nextDouble()
     } else {
-        discount = 0;
+        discount = "0";
     }
+    
+    if(discount.contains("%")){
+            discount = discount.replace("%","");
+        }
+        
+    double updateDiscount = Double.parseDouble(discount);
+        
 
-    finalprice = price - (price * (discount / 100));
+    finalprice = price - (price * (updateDiscount / 100));
 
     System.out.println("Here is your bookstore book information: ");
     System.out.println("[" + isbn + "-" + title + " by " + author + ", $" + price + " listed for $" + String.format("%.2f", finalprice) + "]");
