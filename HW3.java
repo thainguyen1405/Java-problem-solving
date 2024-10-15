@@ -1,8 +1,9 @@
 import java.util.Scanner;
 import java.util.Random;
 
+
 public class Main {
-    public static void main(String args[]) {
+	public static void main(String args[]) {
         
         System.out.println("Welcome to the book program!");
         
@@ -12,13 +13,20 @@ public class Main {
         double price = 0;
         String yesno = "";
         double discount = 0;
+        
+        String threeLetters = "";
+        String c = "";
+        String callNum = "";
 
+        
         while(true){
             System.out.printf("Would you like to create a book object? (yes/no): ");
             choice = scan.nextLine();
+
+            
 			
 			if(choice.equalsIgnoreCase("yes")) {
-				System.out.printf("Please enter the author, title and the isbn of the book separated by /: ");
+				System.out.printf("Please enter the author, title ad the isbn of the book separted by /: ");
 				bookInfo = scan.nextLine();
 				System.out.println("Got it!");
 			}
@@ -30,38 +38,29 @@ public class Main {
 				System.out.printf("I'm sorry but " + choice + " isn't a valid answer. Please enter either yes or no: ");
 			}		
 		
-		// If the user said yes
+		
+		
+		//If the user said yes
 		if(choice.equalsIgnoreCase("yes")){
 		    String[] bookSeperate = bookInfo.split("/");
-		    String author = bookSeperate[0].toUpperCase();
-		    String title = bookSeperate[1].toUpperCase();
+		    String author = bookSeperate[0];
+		    author = author.toUpperCase();
+		    String title = bookSeperate[1];
+		    title = title.toUpperCase();
 		    String isbn = bookSeperate[2];
 		    
-			System.out.printf("Now, tell me if it is a bookstore book or a library book (enter BB for bookstore book and LB for library book): ");
+			System.out.printf("Now, tell me if it is a bookstore book or a library book (enter BB for bookstore book and LB for library book: ");
 			String Blb = scan.nextLine();
 			
 			while(true) {
-				if(Blb.equalsIgnoreCase("BB")) {
-				    System.out.println("Got it!");
-				    BookstoreBook b = new BookstoreBook(author, title, isbn, price, yesno, discount);
-				    b.askingPrice();
-				    break;
+				if( (Blb.equalsIgnoreCase("BB"))  ) {
+				System.out.println("Got it!");
+		        BookstoreBook b = new BookstoreBook(author,title, isbn,price, yesno,discount);
+		        b.askingPrice();
+				break;
 				}
-				else if(Blb.equalsIgnoreCase("LB")) {
-				    // Prompt for values specific to LibraryBook
-				    System.out.printf("Please enter the first three letters of the author's name: ");
-				    String threeLetters = scan.nextLine();
-				    
-				    System.out.printf("Please enter the last character of the ISBN: ");
-				    String c = scan.nextLine();
-				    
-				    System.out.printf("Please enter the call number of the book: ");
-				    String callNum = scan.nextLine();
-				    
+				else if( (Blb.equalsIgnoreCase("LB")) ){
 				    LibraryBook l = new LibraryBook(author, title, isbn, threeLetters, c, callNum);
-				    System.out.println("Here is your library book information: ");
-				    System.out.println(l.toString());
-				    break;
 				}
 				else {
 					System.out.print("Oops! That's not a valid entry. Please try again: ");
@@ -72,6 +71,8 @@ public class Main {
 	}
 }
 }
+	
+
 	
 //___________________________
 abstract class Book {
@@ -86,6 +87,8 @@ abstract class Book {
         this.title = title;
         this.isbn = isbn;
     }
+    
+
     
     // Common setter and getter methods for author, title, and isbn
     public void setAuthor(String author) {
@@ -112,9 +115,9 @@ abstract class Book {
         return isbn;
     }
     
-    // Abstract method that subclasses will implement
+ // Abstract method that subclasses will implement
     public String toString() {
-    	return "[" + isbn + "-" + title + " by " + author + "]";
+    	return "[" + isbn + "-" + title + "by" + author + "]";
     }
     
 }
@@ -126,7 +129,7 @@ class BookstoreBook extends Book {
 	private double discount;
 	double finalprice;
 	
-	// Constructor
+	//Set & Get for at least 3 constructors
 	public BookstoreBook(String author, String title, String isbn, double price, String yesno, double discount) {
 		super(author, title, isbn);
 		this.price = price;
@@ -136,7 +139,7 @@ class BookstoreBook extends Book {
 	}
 	
 	public void askingPrice(){
-	    Scanner scan = new Scanner(System.in);
+	    Scanner scan = new Scanner(System.in); // Declare Scanner here
 	    System.out.printf("Please enter the list price of " + title + " by " + author +": ");
 	    price = scan.nextDouble();
 	    scan.nextLine(); // Consume the leftover newline after nextDouble()
@@ -158,10 +161,10 @@ class BookstoreBook extends Book {
 	    
 	}
 	
-	// Override
+	//Override
 	public String toString() {
-		return "[" + isbn + "-" + title + " by " + author + ", $" + price + " listed for $" + finalprice + "]"; 
-	}
+		return "[" + isbn + "-" + title + "by" + author + ", $" + price + "listed for $" + finalprice; 
+		}
 	
 }
 	
@@ -170,25 +173,40 @@ class BookstoreBook extends Book {
 class LibraryBook extends Book {
 	private int floors;
 	private String strFloors;
-	private String threeLetters;
+	private String[] threeLetters;
 	private String c;
 	private String callNum;
 	
-	// Constructor
+	
+	//Set & Get for at least 3 constructors
 	public LibraryBook(String author, String title, String isbn, String threeLetters, String c, String callNum) {
 		super(author, title, isbn);
 		
 		Random rand = new Random();
-	    this.floors = rand.nextInt(100) + 1;
-	    this.strFloors = String.format("%d", floors);
+	    this.floors = rand.nextInt(100)+1;
+	    strFloors = String.format("%d", floors);
 	    
-	    this.threeLetters = threeLetters;
-	    this.c = c;
-	    this.callNum = callNum;
+		this.threeLetters[0] = author.substring(0,3);
+		this.c = isbn.substring(isbn.length()-1);
+		this.callNum = callNum;
+		
+		callNum = strFloors + "." + threeLetters + "." + c;
 	}
 	
-	// Override
+	
+	
+	
+	//Override
 	public String toString(){
-		return "[" + isbn + "-" + title + " by " + author + "-" + strFloors + "." + threeLetters + "." + c + "]";
+		return "[" + isbn + "-" + title + "by" + author + "-" + callNum;
+	}
+}
+
+//___________________________
+class BookList {
+	private Book[] list;
+	public BookList() {
+		list = new Book[100];
+		// Additional code goes here if needed...
 	}
 }
