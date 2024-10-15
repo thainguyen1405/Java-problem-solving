@@ -41,19 +41,20 @@ public class Main {
             }
             else {
                 System.out.printf("I'm sorry but %s isn't a valid answer. Please enter either yes or no: ", choice);
-                continue;
             }
-
+            
             // If the user said yes
             if(choice.equalsIgnoreCase("yes")){
-                String[] bookSeperate = bookInfo.split("/");
-                String author = bookSeperate[0];
-                author = author.toUpperCase();
-                String title = bookSeperate[1];
-                title = title.toUpperCase();
-                String isbn = bookSeperate[2];
-                
-                System.out.printf("Now, tell me if it is a bookstore book or a library book (enter BB for bookstore book and LB for library book): ");
+            String[] bookSeperate = bookInfo.split("/");
+            String author = bookSeperate[0];
+            author = author.toUpperCase();
+            String title = bookSeperate[1];
+            title = title.toUpperCase();
+            String isbn = bookSeperate[2];
+            
+            System.out.printf("Now, tell me if it is a bookstore book or a library book (enter BB for bookstore book and LB for library book): ");
+            
+            while(true){
                 String Blb = scan.nextLine();
                 
                 if (Blb.equalsIgnoreCase("BB")) {
@@ -62,6 +63,7 @@ public class Main {
                     b.askingPrice();
                     bookList.addBook(b);  // Add book to BookList
                     bookCount++;
+                    break;
                 } 
                 else if (Blb.equalsIgnoreCase("LB")) {
                     // Handle LibraryBook creation
@@ -70,12 +72,16 @@ public class Main {
                     System.out.println(l.toString());
                     bookList.addBook(l);  // Add book to BookList
                     libraryCount++;
+                    break;
                 } 
                 else {
                     System.out.print("Oops! That's not a valid entry. Please try again: ");
                 }
             }
         }
+                
+            }
+            
 
         System.out.println("Here are all your books...");
         bookList.displayBooks(); // Display all books from BookList
