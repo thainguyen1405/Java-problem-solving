@@ -77,7 +77,6 @@ public class Main {
                     } 
                     // LibraryBook
                     else if (Blb.equalsIgnoreCase("LB")) {
-                        // Handle LibraryBook creation
                         System.out.println("Got it!");
                         LibraryBook l = new LibraryBook(author, title, isbn, threeLetters, c, callNum);
                         System.out.println("");
@@ -114,7 +113,7 @@ abstract class Book {
     private String title;
     private String isbn;
     
-    // Constructor to initialize common fields
+    // Constructor to initialize fields
     public Book(String author, String title, String isbn) {
         this.author = author;
         this.title = title;
