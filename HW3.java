@@ -43,6 +43,7 @@ public class Main {
                 } 
                 else {
                     System.out.printf("I'm sorry but %s isn't a valid answer. Please enter either yes or no: ", choice);
+                    System.out.println("");
                 }
             }
             
@@ -60,6 +61,7 @@ public class Main {
                     
                     if (Blb.equalsIgnoreCase("BB")) {
                         // Handle BookstoreBook creation
+                        System.out.println("Got it");
                         BookstoreBook b = new BookstoreBook(author, title, isbn, price, yesno, discount);
                         b.askingPrice();
                         bookList.addBook(b);  // Add book to BookList
@@ -70,6 +72,7 @@ public class Main {
                         // Handle LibraryBook creation
                         System.out.println("Got it!");
                         LibraryBook l = new LibraryBook(author, title, isbn, threeLetters, c, callNum);
+                        System.out.println("");
                         System.out.println(l.toString());
                         bookList.addBook(l);  // Add book to BookList
                         libraryCount++;
@@ -178,9 +181,11 @@ class BookstoreBook extends Book {
         double updateDiscount = Double.parseDouble(discount);
 
         finalprice = price - (price * (updateDiscount / 100));
-
+        
+        System.out.println("");
         System.out.println("Here is your bookstore book information: ");
         System.out.println("[" + isbn + "-" + title + " by " + author + ", $" + price + " listed for $" + String.format("%.2f", finalprice) + "]");
+        System.out.println("");
     }
 
     // Override
@@ -261,16 +266,20 @@ class BookList {
         System.out.println("Library Books (" + libraryBookCount + "):");
         for (int i = 0; i < count; i++) {
             if (list[i] instanceof LibraryBook) {
+                System.out.printf("\t\t");
                 System.out.println(list[i]);
             }
         }
+        System.out.println("_ _ _ _");
         
         // Display the bookstore books with the count
         System.out.println("\nBookstore Books (" + bookstoreBookCount + "):");
         for (int i = 0; i < count; i++) {
             if (list[i] instanceof BookstoreBook) {
+                System.out.printf("\t\t");
                 System.out.println(list[i]);
             }
         }
+        System.out.println("_ _ _ _");
     }
 }
