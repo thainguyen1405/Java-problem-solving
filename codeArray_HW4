@@ -8,7 +8,7 @@ public class codeArray_HW4 {
 		char charAtIndex;
 		int length;
 		String subSequence;
-		
+
 		Scanner myScan = new Scanner(System.in);
 		
 		System.out.print("Enter how many rows and how many columns to load: ");
@@ -76,7 +76,7 @@ class Code implements CharSequence {
 	// ______________THE CODE ABOVE IS TO REMAIN UNCHANGED______________________
 	@Override
 	public char charAt(int index) {
-		return (char)index;
+		return (char) index;
 		}
 	
 	@Override
@@ -86,6 +86,11 @@ class Code implements CharSequence {
 	
 	@Override
 	public String subSequence(int start, int end) {
-		return subSequence(start, end);
-		}
+	    String word = "";
+	    while(start < end){
+	        word += charAt(start) + charAt(end);
+	        start++;
+	    }
+	    return word;
+	}
 }
