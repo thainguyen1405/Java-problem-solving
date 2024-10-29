@@ -20,7 +20,7 @@ public class codeArray_HW4 {
 		codeObject.printCodeArray(numRows, numColumns);
 		// __________________________________________
 		System.out.print("\n\nTesting charAt: Enter your index [a number greater or equal to 0 and less or equal to ");
-		System.out.print((numRows * numColumns - 1) + "]:");
+		System.out.print((numRows * numColumns - 1) + "]: ");
 		index = myScan.nextInt();
 		charAtIndex = codeObject.charAt(index);
 		System.out.println("The character located at index " + index + " is: " + charAtIndex);
@@ -76,7 +76,7 @@ class Code implements CharSequence {
 	// ______________THE CODE ABOVE IS TO REMAIN UNCHANGED______________________
 	@Override
 	public char charAt(int index) {
-	    int row = index / numRows;
+	    int row = index / numColumns;
 	    int col = index % numColumns;
 		return (char) codeArray[row][col];
 		}
@@ -89,7 +89,7 @@ class Code implements CharSequence {
 	@Override
 	public String subSequence(int start, int end) {
 	    String word = "";
-	    while(start < end){
+	    while(start <= end){
 	        word += charAt(start);
 	        start++;
 	    }
