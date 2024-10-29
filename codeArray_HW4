@@ -1,7 +1,7 @@
 import java.util.Scanner;
 
 
-public class codeArray_HW4 {
+public class DriverClass {
 	public static void main(String args[]) {
 		int numRows, numColumns;
 		int index, start, end;
