@@ -76,7 +76,9 @@ class Code implements CharSequence {
 	// ______________THE CODE ABOVE IS TO REMAIN UNCHANGED______________________
 	@Override
 	public char charAt(int index) {
-		return (char) index;
+	    int row = index / numRows;
+	    int col = index % numColumns;
+		return (char) codeArray[row][col];
 		}
 	
 	@Override
@@ -88,7 +90,7 @@ class Code implements CharSequence {
 	public String subSequence(int start, int end) {
 	    String word = "";
 	    while(start < end){
-	        word += charAt(start) + charAt(end);
+	        word += charAt(start);
 	        start++;
 	    }
 	    return word;
