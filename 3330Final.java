@@ -221,6 +221,12 @@ public class FinalProject{
 					status = choice5.nextLine();
 					
 					if(status.equalsIgnoreCase("P") || status.equalsIgnoreCase("F")) {
+						if(status.equalsIgnoreCase("F")) {
+							status = "Full Time";
+						}
+						else if(status.equalsIgnoreCase("P")) {
+							status = "Part Time";
+						}
 						break;
 					}
 					else
@@ -229,6 +235,8 @@ public class FinalProject{
 				
 				System.out.println();
 				System.out.println("Staff member added!");
+				
+				people.add(new Staff(name, id, department, status));
 			}
 			
 			if(user == 6) {
@@ -439,10 +447,11 @@ class Staff extends Employees{
 		return status;
 	}
 	
+	
 	public void print() {
 		System.out.println("----------------------------");
 		System.out.println(getName() + "\t\t" + getId());
-		System.out.println(getDepartment() + "Department, " + status);
+		System.out.println(getDepartment() + " Department, " + status);
 		System.out.println("----------------------------");
 		System.out.println();
 	}
