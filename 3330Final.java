@@ -13,7 +13,7 @@ import java.io.PrintWriter;
 
 
 public class FinalProject{
-	public static void main(String[] args) {
+	public static void main(String[] args) throws Exception{
 		//Test code
 		int user = 0;
 		Scanner scan = new Scanner(System.in);
@@ -112,7 +112,7 @@ public class FinalProject{
 			
 			
 			//2nd case
-			if (user == 2) {
+			else if (user == 2) {
 				Scanner choice2 = new Scanner(System.in);
 			    System.out.println("Enter the student info: ");
 			    System.out.print("\tName of Student: ");
@@ -142,7 +142,7 @@ public class FinalProject{
 			
 			
 			//3rd case
-			if(user == 3) {
+			else if(user == 3) {
 				Scanner choice3 = new Scanner(System.in);
 				String scheck = "";
 				boolean sfound = false;
@@ -164,7 +164,7 @@ public class FinalProject{
 			}
 				
 			
-			if(user == 4) {
+			else if(user == 4) {
 				Scanner choice4 = new Scanner(System.in);
 				String facheck = "";
 				boolean fafound = false;
@@ -185,7 +185,7 @@ public class FinalProject{
 				}
 			}
 			
-			if(user == 5) {
+			else if(user == 5) {
 				Scanner choice5 = new Scanner(System.in);
 				System.out.println("Enter the staff info: ");
 				System.out.print("\tName of the staff member: ");
@@ -238,7 +238,7 @@ public class FinalProject{
 				people.add(new Staff(name, id, department, status));
 			}
 			
-			if(user == 6) {
+			else if(user == 6) {
 				Scanner choice6 = new Scanner(System.in);
 				String sfcheck = "";
 				boolean sffound = false;
@@ -259,7 +259,7 @@ public class FinalProject{
 				}
 			}
 				
-			if(user == 7) {
+			else if(user == 7) {
 				Scanner choice7 = new Scanner(System.in);
 				String decheck = "";
 				boolean defound = false;
@@ -285,7 +285,7 @@ public class FinalProject{
 			
 			
 			
-			if(user == 8) {
+			else if(user == 8) {
 				String yesno;
 				int sort;
 				
@@ -297,30 +297,57 @@ public class FinalProject{
 					
 					if(yesno.equalsIgnoreCase("Y")) {
 						while(true) {
-							System.out.println("Would you like to sort your students by descending gpa or name (1 for gpa, 2 for name): ");
+							System.out.print("Would you like to sort your students by descending gpa or name (1 for gpa, 2 for name): ");
 							sort = choice8.nextInt();
 							
 							System.out.println("Report created and saved on your hard drive!");
 							System.out.println("Goodbye");
 							
 							PrintWriter writer = new PrintWriter("report.txt");
-							writer.println("Report created on" + today);
-							writer.println("**************************");
+							writer.println("\t\tReport created on" + today);
+							writer.println("\t\t**************************");
 							
+							writer.println("Faculty Members");
+							writer.println("-----------------");
+							
+							for(int i = 0; i < people.size(); i++) {
+								Person p = people.get(i);
+								Faculty f = (Faculty) p;
+								writer.println(i + "." + f.getName());
+								writer.println("ID: "+ f.getId());
+								writer.println(f.getRank() + "," + f.getDepartment());
+							}
+							
+							writer.println("Staff Members");
+							writer.println("-----------------");
+							for(int i = 0; i < people.size(); i++) {
+								Person p = people.get(i);
+								Staff sf = (Staff) p;
+								writer.println(i + "." + sf.getName());
+								writer.println("ID: "+ sf.getId());
+								writer.println(sf.getDepartment() + "," + sf.getStatus());
+							}
+							
+							
+							writer.println("Students (Sorted by gpa in descending order)");
+							writer.println("-----------------");
 							if(sort == 1) {
 								//Create a report
 								try {
-									for(int i = 0; i < people.size(); i++) {
-										Person p = people.get(i);
-										Student s = (Student) p;
-										double max = s.getGpa();
-										i++;
-										if(s.getGpa() > max) {
-											max = s.getGpa();
+									int num = 1;
+									sortGpa(people);
+									for(Person p: people) {
+										if(p instanceof Student) {
+											Student s = (Student) p;
+											writer.println(num + "." + s.getName());
+											writer.println("ID: " + s.getId());
+											writer.println("Gpa: " + s.getGpa());
+											writer.println("Credit hours: " + s.getCredit());
+											writer.println();
+											num++;
 										}
-										
-										
 									}
+									break;
 								}
 							    catch(Exception e) {
 							    	 System.err.println("Error: Unable to create or write to the file.");
@@ -329,7 +356,20 @@ public class FinalProject{
 							else if(sort == 2) {
 								//Create a report
 								try {
-									///
+									int num = 1;
+									sortGpa(people);
+									for(Person p: people) {
+										if(p instanceof Student) {
+											Student s = (Student) p;
+											writer.println(num + "." + s.getName());
+											writer.println("ID: " + s.getId());
+											writer.println("Gpa: " + s.getGpa());
+											writer.println("Credit hours: " + s.getCredit());
+											writer.println();
+											num++;
+										}
+									}
+									break;
 									
 								}
 								catch(Exception e) {
@@ -341,9 +381,7 @@ public class FinalProject{
 					
 							
 						}
-					}
-							
-						
+					}				
 					else if(yesno.equalsIgnoreCase("N")){
 						System.out.println("Goodbye!");
 						exitLoops = true;
@@ -353,12 +391,19 @@ public class FinalProject{
 						System.out.println(yesno + "is invalid");
 				}
 				
-			}		
-		}
+				exitLoops = true;
+			}
+			
+			else
+				System.out.println("Invalid entry - please try again");
 			
 			
 		}
+	}
+	
 		
+	
+	    //Insertion method in sorting GPA
 		public static void sortGpa(ArrayList<Person> people) {
 			for(int i = 1; i < people.size(); i++) {
 				Person p = people.get(i);
@@ -378,6 +423,30 @@ public class FinalProject{
 				}
 			}
 		}
+		
+		
+		//Insertion method in sorting name
+		public static void sortName(ArrayList<Person> people) {
+			for(int i = 1; i < people.size(); i++) {
+				Person p = people.get(i);
+				Student s = (Student) p;
+				if(people.get(i) instanceof Student) {
+					Student nameStudent = (Student) people.get(i);
+					int j = i-1;
+					
+					
+					while(j>=0 && people.get(j) instanceof Student && (s.getName().compareToIgnoreCase(nameStudent.getName()) < 0)){
+						people.set(j+1, people.get(j));
+						j--;
+					}
+					
+					people.set(j+1, nameStudent);
+		
+				}
+			}
+		}
+		
+		
 }
 
 
