@@ -3,7 +3,7 @@ import java.util.ArrayList;
 import java.time.LocalDate;
 
 import java.io.FileWriter;
-import java.io.IOException;
+import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 
 
@@ -323,7 +323,7 @@ public class FinalProject{
 									}
 								}
 							    catch(Exception e) {
-							    	
+							    	 System.err.println("Error: Unable to create or write to the file.");
 							    }
 							}
 							else if(sort == 2) {
@@ -333,7 +333,7 @@ public class FinalProject{
 									
 								}
 								catch(Exception e) {
-									
+									 System.err.println("Error: Unable to create or write to the file.");
 								}
 							}
 							else
@@ -353,15 +353,31 @@ public class FinalProject{
 						System.out.println(yesno + "is invalid");
 				}
 				
-				
-				
-				writer.close();
-		
-			}
+			}		
+		}
+			
 			
 		}
 		
-	}
+		public static void sortGpa(ArrayList<Person> people) {
+			for(int i = 1; i < people.size(); i++) {
+				Person p = people.get(i);
+				Student s = (Student) p;
+				if(people.get(i) instanceof Student) {
+					Student thisStudent = (Student) people.get(i);
+					int j = i-1;
+					
+					
+					while(j>=0 && people.get(j) instanceof Student && (s.getGpa() < thisStudent.getGpa())){
+						people.set(j+1, people.get(j));
+						j--;
+					}
+					
+					people.set(j+1, thisStudent);
+		
+				}
+			}
+		}
 }
 
 
