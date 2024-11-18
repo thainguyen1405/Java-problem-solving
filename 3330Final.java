@@ -34,7 +34,7 @@ public class FinalProject{
 		//Daily date report
 		LocalDate today = LocalDate.now();
 		
-		ArrayList<Person> person = new ArrayList<>(100);
+		ArrayList<Person> people = new ArrayList<>(100);
 		
 		//Menu display
 		System.out.println("\t\t\t Welcome to my Personal Management Program");
@@ -107,7 +107,7 @@ public class FinalProject{
 				System.out.println("Faculty added!");
 				System.out.println();
 				
-				person.add(new Faculty(name, id, title, department, rank));
+				people.add(new Faculty(name, id, department, rank));
 				
 			}
 			
@@ -138,55 +138,118 @@ public class FinalProject{
 			    System.out.println("\nStudent added!");
 			    System.out.println();
 			    
-			    person.add(new Student(name, id, gpa, credit));
+			    people.add(new Student(name, id, gpa, credit));
 			}
+			
 			
 			//3rd case
 			if(user == 3) {
-				Student s = new Student(name, id, gpa, credit);
-				s.print();
+				Scanner choice3 = new Scanner(System.in);
+				String scheck = "";
+				boolean sfound = false;
+				System.out.print("Enter the student's is: ");
+				scheck = choice3.nextLine();
+				
+				for(int i = 0; i < people.size(); i++) {
+					Person p = people.get(i);
+					Student s = (Student) p;
+					if(p instanceof Student && scheck.equalsIgnoreCase(p.getId())) {	
+						s.print();
+						sfound = true;
+					}
+				}
+				
+				if(!sfound) {
+					System.out.println("No student matched!");
+				}
 			}
+				
 			
 			if(user == 4) {
-				Faculty f = new Faculty(name, id, title, department, rank);
-				f.print();
+				Scanner choice4 = new Scanner(System.in);
+				String facheck = "";
+				boolean fafound = false;
+				System.out.print("Enter the Faculty's is: ");
+				facheck = choice4.nextLine();
 				
+				for(int i = 0; i < people.size(); i++) {
+					Person p = people.get(i);
+					Faculty f = (Faculty) p;
+					if(p instanceof Faculty && facheck.equalsIgnoreCase(p.getId())) {
+						f.print();
+						fafound = true;
+					}
+				}
+					
+				if(!fafound) {
+					System.out.println("No faculty matched!");
+				}
 			}
 			
 			if(user == 5) {
-				System.out.println("Name of the staff member: ");
-				name =scan.nextLine();
-				System.out.println("Enter the id: ");
-				id = scan.nextLine();
+				Scanner choice5 = new Scanner(System.in);
+				System.out.println("Enter the staff info: ");
+				System.out.print("\tName of the staff member: ");
+				name =choice5.nextLine();
+				
+				System.out.print("\tEnter the id: ");
+				id = choice5.nextLine();
 				
 				while(true) {
-					System.out.print("Department: ");
-					department = scan.nextLine();
-					
-					if(!department.equalsIgnoreCase("Mathematics") || !department.equalsIgnoreCase("Engineering") || !department.equalsIgnoreCase("English")) {
-						System.out.println(department + " is invalid");
+			    	if(id.matches("[a-z]{2}\\d{4}")) {
+			    		break;
+			    	}
+			    	else
+			    		System.out.println("\tInvalid ID format. Must be LetterLetterDigitDigitDigitDigit");
+			    	    System.out.print("\tID: ");
+					    id = choice5.nextLine(); // Read the ID
+			    }
+				
+				System.out.print("\tDepartment: ");
+				department = choice5.nextLine();
+				
+				while(true) {	
+					if(department.equalsIgnoreCase("Mathematics") || department.equalsIgnoreCase("Engineering") || department.equalsIgnoreCase("English")) {
+						break;
 					}
 					else
-						break;
+						System.out.println("\t\t\"" + department + "\"" + " is invalid");
 				}
 				
 				while(true) {
-					System.out.println("Status, Enter P for Part Time, or Enter F for Full Time: ");
-					status = scan.nextLine();
+					System.out.print("\tStatus, Enter P for Part Time, or Enter F for Full Time: ");
+					status = choice5.nextLine();
 					
-					if(!status.equalsIgnoreCase("P") || !status.equalsIgnoreCase("F")) {
-						System.out.println(status + "is invalid");
+					if(status.equalsIgnoreCase("P") || status.equalsIgnoreCase("F")) {
+						break;
 					}
 					else
-						break;
+						System.out.println("\t\t\"" + status + "\"" + "is invalid");
 				}
 				
+				System.out.println();
 				System.out.println("Staff member added!");
 			}
 			
 			if(user == 6) {
-				Staff sf = 	new Staff(name, id, title, department, status);
-				sf.print();
+				Scanner choice6 = new Scanner(System.in);
+				String sfcheck = "";
+				boolean sffound = false;
+				System.out.print("Enter the Staff's is: ");
+				sfcheck = choice6.nextLine();
+				
+				for(int i = 0; i < people.size(); i++) {
+					Person p = people.get(i);
+					Staff sf = (Staff) p;
+					if(p instanceof Staff && sfcheck.equalsIgnoreCase(p.getId())) {	
+						sf.print();
+						sffound = true;
+					}
+				}
+				
+				if(!sffound) {
+					System.out.println("No staff matched!");
+				}
 			}
 				
 			if(user == 7) {
@@ -288,7 +351,6 @@ abstract class Person{
 }
 
 
-
 //___________________
 class Student extends Person{
 	private double gpa;
@@ -300,39 +362,35 @@ class Student extends Person{
 	}	
 	
 	public void print() {
-		Scanner scan = new Scanner(System.in);
-		String idcheck;
-		System.out.print("Enter the Student's id: ");
-		idcheck = scan.nextLine();
-		if(idcheck == getId()) {
 			System.out.println("Here is the tuition invoice for " + getName() + ":");
 			System.out.println();
-			System.out.println("----------------------------");
-			System.out.println(getName() + "\t\t\t\t\t" + getId());
-			System.out.println("Credit Hours: " + credit + "($236.45/credit hour");
+			System.out.println("--------------------------------------------------");
+			System.out.println(getName() + "\t\t" + getId());
+			System.out.println("Credit Hours: " + credit + " ($236.45/credit hour)");
 			System.out.println("Fees: $52");
 			
-			double discount = 0.0;
+			double discount = 0;
 			double total = 0.0;
 			if(gpa >= 3.85) {
 				total = (236.45*credit + 52) - 0.25*(236.45*credit + 52);
+				total = Math.round(total*100.0)/100.0;
 			}
 			else
 				total = (236.45*credit + 52);
+			    total = Math.round(total*100.0)/100.0;
 			
-			System.out.println("Total payment (after discount): $" + total + "/t/t/t($" + discount + " discount applied");
+			System.out.println("Total payment (after discount): $" + total + "\t\t($" + discount + " discount applied)");
+			System.out.println("--------------------------------------------------");
 
 		}
-	}
 }
 
 abstract class Employees extends Person{
 	private String title;
 	private String department;
 	
-	public Employees(String name, String id, String title, String department) {
+	public Employees(String name, String id, String department) {
 		super(name,id);
-		this.title = title;
 		this.department = department;
 	}
 	
@@ -350,8 +408,8 @@ abstract class Employees extends Person{
 class Faculty extends Employees{
 	private String rank;
 	
-	public Faculty(String name, String id, String title, String department, String rank) {
-		super(name, id, title, department);
+	public Faculty(String name, String id, String department, String rank) {
+		super(name, id, department);
 		this.rank = rank;
 	}
 	
@@ -360,26 +418,20 @@ class Faculty extends Employees{
 	}
 	
 	public void print() {
-		Scanner scan = new Scanner(System.in);
-		String idcheck;
-		System.out.print("Enter the Faculty's id: ");
-		idcheck = scan.nextLine();
-		if(idcheck == getId()) {
-			System.out.println("----------------------------");
-			System.out.println(getName() + "\t\t\t\t" + getId());
-			System.out.println(getDepartment() + "Department, " + rank);
-			System.out.println("-----------------------------");
-		}
-		
-	}
-	
+		System.out.println("----------------------------");
+		System.out.println(getName() + "\t\t" + getId());
+		System.out.println(getDepartment() + " Department, " + rank);
+		System.out.println("-----------------------------");
+		System.out.println();
+	}	
 }
+
 
 class Staff extends Employees{
 	private String status;
 	
-	public Staff(String name, String id, String title, String department, String status) {
-		super(name, id, title, department);
+	public Staff(String name, String id, String department, String status) {
+		super(name, id, department);
 		this.status = status;
 	}
 	
@@ -388,18 +440,13 @@ class Staff extends Employees{
 	}
 	
 	public void print() {
-		Scanner scan = new Scanner(System.in);
-		String idcheck;
-		System.out.print("Enter the Staff's id: ");
-		idcheck = scan.nextLine();
-		if(idcheck == getId()) {
-			System.out.println("----------------------");
-			System.out.println(getName() + "/t/t/t" + getId());
-			System.out.println(getDepartment() + "Department, " + status);
-			System.out.println("-----------------------------");
-		}
-		
+		System.out.println("----------------------------");
+		System.out.println(getName() + "\t\t" + getId());
+		System.out.println(getDepartment() + "Department, " + status);
+		System.out.println("----------------------------");
+		System.out.println();
 	}
+		
 }
 
 
