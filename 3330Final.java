@@ -290,40 +290,51 @@ public class FinalProject{
 				int sort;
 				
 				while(true) {
-					Scanner scan1 = new Scanner(System.in);
+					Scanner choice8 = new Scanner(System.in);
 					
 					System.out.print("Would you like to create the report? (Y/N): ");
-					yesno = scan1.nextLine();
+					yesno = choice8.nextLine();
 					
 					if(yesno.equalsIgnoreCase("Y")) {
 						while(true) {
 							System.out.println("Would you like to sort your students by descending gpa or name (1 for gpa, 2 for name): ");
-							sort = scan1.nextInt();
+							sort = choice8.nextInt();
 							
 							System.out.println("Report created and saved on your hard drive!");
 							System.out.println("Goodbye");
 							
+							PrintWriter writer = new PrintWriter("report.txt");
+							writer.println("Report created on" + today);
+							writer.println("**************************");
+							
 							if(sort == 1) {
 								//Create a report
-								try(PrintWriter writer = new PrintWriter("report.txt")){
-									writer.println("Report created on " + today);
-									writer.println("****************");
+								try {
+									for(int i = 0; i < people.size(); i++) {
+										Person p = people.get(i);
+										Student s = (Student) p;
+										double max = s.getGpa();
+										i++;
+										if(s.getGpa() > max) {
+											max = s.getGpa();
+										}
+										
+										
+									}
 								}
-								catch(IOException e) {
-									System.err.println("Error while creating report");
-								}
-							      break;
+							    catch(Exception e) {
+							    	
+							    }
 							}
 							else if(sort == 2) {
 								//Create a report
-								try(PrintWriter writer = new PrintWriter("report.txt")){
-									writer.println("Report created on " + today);
-									writer.println("****************");
+								try {
+									///
+									
 								}
-								catch(IOException e) {
-									System.err.println("Error while creating report");
+								catch(Exception e) {
+									
 								}
-							      break;
 							}
 							else
 								System.out.println(sort + "is invalid");
@@ -341,6 +352,10 @@ public class FinalProject{
 					else
 						System.out.println(yesno + "is invalid");
 				}
+				
+				
+				
+				writer.close();
 		
 			}
 			
@@ -385,8 +400,17 @@ class Student extends Person{
 	
 	public Student(String name, String id, double gpa, int credit) {
 		super(name, id);
+		this.gpa = gpa;
 		this.credit = credit;
-	}	
+	}
+	
+	public Double getGpa() {
+		return gpa;
+	}
+	
+	public int getCredit() {
+		return credit;
+	}
 	
 	public void print() {
 			System.out.println("Here is the tuition invoice for " + getName() + ":");
