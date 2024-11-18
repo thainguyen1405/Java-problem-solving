@@ -27,7 +27,6 @@ public class FinalProject{
 		
 		//Faculty & Staff
 		String department = "";
-		String title = "";
 		String rank = "";
 		String status = "";
 		
@@ -261,7 +260,27 @@ public class FinalProject{
 			}
 				
 			if(user == 7) {
-				//Remove the person from array
+				Scanner choice7 = new Scanner(System.in);
+				String decheck = "";
+				boolean defound = false;
+				System.out.print("Enter the id of the person to delete: ");
+				decheck = choice7.nextLine();
+				
+				for(int i = 0; i < people.size(); i++) {
+					Person p = people.get(i);
+					if(decheck.equalsIgnoreCase(p.getId())) {	
+						people.remove(p);
+						System.out.println("Delete successfully!");
+						System.out.println();
+						defound = true;
+					}
+				}
+				
+				if(!defound) {
+					System.out.println("Sorry no such person exists.");
+					System.out.println();
+				}
+				
 			}
 			
 			
