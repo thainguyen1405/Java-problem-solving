@@ -7,7 +7,6 @@ import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 
 
-
 // Final Project
 // Thai Nguyen
 
@@ -15,7 +14,7 @@ import java.io.PrintWriter;
 public class FinalProject{
 	public static void main(String[] args) throws Exception{
 		//Test code
-		int user = 0;
+		String user = "";
 		Scanner scan = new Scanner(System.in);
 		
 		//Declare initial variables
@@ -54,12 +53,14 @@ public class FinalProject{
 			System.out.println("7- Delete a person");
 			System.out.println("8- Exit Program");
 			
-			System.out.print("\tEnter your selection: ");
-			user = scan.nextInt();
-			System.out.println();
-			
+			 System.out.print("\tEnter your selection: ");
+			 user = scan.nextLine().trim();  //Remove extra whitespace
+			 System.out.println();
+			 
+			 
+			 
 			//1st case
-			if(user == 1) {
+			if(user.equals("1")) {
 				Scanner choice1 = new Scanner(System.in);
 				System.out.println("Enter the faculty info:");
 				System.out.print("\tName of the faculty: ");
@@ -74,6 +75,7 @@ public class FinalProject{
 			    	}
 			    	else
 			    		System.out.println("\tInvalid ID format. Must be LetterLetterDigitDigitDigitDigit");
+			    	    System.out.println();
 			    	    System.out.print("\tID: ");
 					    id = choice1.nextLine(); // Read the ID
 			    }
@@ -112,7 +114,7 @@ public class FinalProject{
 			
 			
 			//2nd case
-			else if (user == 2) {
+			else if (user.equals("2")) {
 				Scanner choice2 = new Scanner(System.in);
 			    System.out.println("Enter the student info: ");
 			    System.out.print("\tName of Student: ");
@@ -126,6 +128,7 @@ public class FinalProject{
 			    	}
 			    	else
 			    		System.out.println("\tInvalid ID format. Must be LetterLetterDigitDigitDigitDigit");
+			    	    System.out.println();
 			    	    System.out.print("\tID: ");
 					    id = choice2.nextLine(); // Read the ID
 			    }
@@ -142,7 +145,7 @@ public class FinalProject{
 			
 			
 			//3rd case
-			else if(user == 3) {
+			else if(user.equals("3")) {
 				Scanner choice3 = new Scanner(System.in);
 				String scheck = "";
 				boolean sfound = false;
@@ -151,8 +154,8 @@ public class FinalProject{
 				
 				for(int i = 0; i < people.size(); i++) {
 					Person p = people.get(i);
-					Student s = (Student) p;
-					if(p instanceof Student && scheck.equalsIgnoreCase(p.getId())) {	
+					if(p instanceof Student && scheck.equalsIgnoreCase(p.getId())) {
+						Student s = (Student) p;
 						s.print();
 						sfound = true;
 					}
@@ -164,7 +167,7 @@ public class FinalProject{
 			}
 				
 			
-			else if(user == 4) {
+			else if(user.equals("4")) {
 				Scanner choice4 = new Scanner(System.in);
 				String facheck = "";
 				boolean fafound = false;
@@ -173,8 +176,8 @@ public class FinalProject{
 				
 				for(int i = 0; i < people.size(); i++) {
 					Person p = people.get(i);
-					Faculty f = (Faculty) p;
 					if(p instanceof Faculty && facheck.equalsIgnoreCase(p.getId())) {
+						Faculty f = (Faculty) p;
 						f.print();
 						fafound = true;
 					}
@@ -185,7 +188,7 @@ public class FinalProject{
 				}
 			}
 			
-			else if(user == 5) {
+			else if(user.equals("5")) {
 				Scanner choice5 = new Scanner(System.in);
 				System.out.println("Enter the staff info: ");
 				System.out.print("\tName of the staff member: ");
@@ -200,6 +203,7 @@ public class FinalProject{
 			    	}
 			    	else
 			    		System.out.println("\tInvalid ID format. Must be LetterLetterDigitDigitDigitDigit");
+			    	    System.out.println();
 			    	    System.out.print("\tID: ");
 					    id = choice5.nextLine(); // Read the ID
 			    }
@@ -238,7 +242,7 @@ public class FinalProject{
 				people.add(new Staff(name, id, department, status));
 			}
 			
-			else if(user == 6) {
+			else if(user.equals("6")) {
 				Scanner choice6 = new Scanner(System.in);
 				String sfcheck = "";
 				boolean sffound = false;
@@ -247,8 +251,8 @@ public class FinalProject{
 				
 				for(int i = 0; i < people.size(); i++) {
 					Person p = people.get(i);
-					Staff sf = (Staff) p;
-					if(p instanceof Staff && sfcheck.equalsIgnoreCase(p.getId())) {	
+					if(p instanceof Staff && sfcheck.equalsIgnoreCase(p.getId())) {
+						Staff sf = (Staff) p;
 						sf.print();
 						sffound = true;
 					}
@@ -259,7 +263,7 @@ public class FinalProject{
 				}
 			}
 				
-			else if(user == 7) {
+			else if(user.equals("7")) {
 				Scanner choice7 = new Scanner(System.in);
 				String decheck = "";
 				boolean defound = false;
@@ -284,167 +288,170 @@ public class FinalProject{
 			}
 			
 			
-			
-			else if(user == 8) {
-				String yesno;
-				int sort;
-				
-				while(true) {
-					Scanner choice8 = new Scanner(System.in);
-					
-					System.out.print("Would you like to create the report? (Y/N): ");
-					yesno = choice8.nextLine();
-					
-					if(yesno.equalsIgnoreCase("Y")) {
-						while(true) {
-							System.out.print("Would you like to sort your students by descending gpa or name (1 for gpa, 2 for name): ");
-							sort = choice8.nextInt();
-							
-							System.out.println("Report created and saved on your hard drive!");
-							System.out.println("Goodbye");
-							
-							PrintWriter writer = new PrintWriter("report.txt");
-							writer.println("\t\tReport created on" + today);
-							writer.println("\t\t**************************");
-							
-							writer.println("Faculty Members");
-							writer.println("-----------------");
-							
-							for(int i = 0; i < people.size(); i++) {
-								Person p = people.get(i);
-								Faculty f = (Faculty) p;
-								writer.println(i + "." + f.getName());
-								writer.println("ID: "+ f.getId());
-								writer.println(f.getRank() + "," + f.getDepartment());
-							}
-							
-							writer.println("Staff Members");
-							writer.println("-----------------");
-							for(int i = 0; i < people.size(); i++) {
-								Person p = people.get(i);
-								Staff sf = (Staff) p;
-								writer.println(i + "." + sf.getName());
-								writer.println("ID: "+ sf.getId());
-								writer.println(sf.getDepartment() + "," + sf.getStatus());
-							}
-							
-							
-							writer.println("Students (Sorted by gpa in descending order)");
-							writer.println("-----------------");
-							if(sort == 1) {
-								//Create a report
-								try {
-									int num = 1;
-									sortGpa(people);
-									for(Person p: people) {
-										if(p instanceof Student) {
-											Student s = (Student) p;
-											writer.println(num + "." + s.getName());
-											writer.println("ID: " + s.getId());
-											writer.println("Gpa: " + s.getGpa());
-											writer.println("Credit hours: " + s.getCredit());
-											writer.println();
-											num++;
-										}
-									}
-									break;
-								}
-							    catch(Exception e) {
-							    	 System.err.println("Error: Unable to create or write to the file.");
-							    }
-							}
-							else if(sort == 2) {
-								//Create a report
-								try {
-									int num = 1;
-									sortGpa(people);
-									for(Person p: people) {
-										if(p instanceof Student) {
-											Student s = (Student) p;
-											writer.println(num + "." + s.getName());
-											writer.println("ID: " + s.getId());
-											writer.println("Gpa: " + s.getGpa());
-											writer.println("Credit hours: " + s.getCredit());
-											writer.println();
-											num++;
-										}
-									}
-									break;
-									
-								}
-								catch(Exception e) {
-									 System.err.println("Error: Unable to create or write to the file.");
-								}
-							}
-							else
-								System.out.println(sort + "is invalid");
-					
-							
-						}
-					}				
-					else if(yesno.equalsIgnoreCase("N")){
-						System.out.println("Goodbye!");
-						exitLoops = true;
-						break;
-					}
-					else
-						System.out.println(yesno + "is invalid");
-				}
-				
-				exitLoops = true;
+			else if (user.equals("8")) { // 8th case
+			    String yesno;
+			    int sort;
+			    boolean reportCheck = false;
+
+			    while (reportCheck != true) {
+			        Scanner choice8 = new Scanner(System.in);
+
+			        System.out.print("Would you like to create the report? (Y/N): ");
+			        yesno = choice8.nextLine();
+
+			        if (yesno.equalsIgnoreCase("Y")) {
+			            while (true) {
+			                System.out.print("Would you like to sort your students by descending gpa or name (1 for gpa, 2 for name): ");
+			                sort = choice8.nextInt();
+
+			                System.out.println("Report created and saved on your hard drive!");
+			                System.out.println("Goodbye");
+
+			                PrintWriter writer = null;
+			                try {
+			                    writer = new PrintWriter("report.txt");
+			                    writer.println("\t\tReport created on " + today);
+			                    writer.println("\t\t**************************");
+
+			                    writer.println("Faculty Members");
+			                    writer.println("-----------------");
+			                    for (int i = 0; i < people.size(); i++) {
+			                        Person p = people.get(i);
+			                        int faculty = 1;
+			                        if (p instanceof Faculty) {
+			                            Faculty f = (Faculty) p;
+			                            writer.println("\t\t" + faculty + ". " + f.getName());
+			                            writer.println("\\t\\tID: " + f.getId());
+			                            writer.println("\t\t" + f.getRank() + ", " + f.getDepartment());
+			                            faculty++;
+			                        }
+			                    }
+
+			                    writer.println("\nStaff Members");
+			                    writer.println("-----------------");
+			                    for (int i = 0; i < people.size(); i++) {
+			                        Person p = people.get(i);
+			                        int staff = 1;
+			                        if (p instanceof Staff) {
+			                            Staff sf = (Staff) p;
+			                            writer.println("\t\t" + staff + ". " + sf.getName());
+			                            writer.println("\t\tID: " + sf.getId());
+			                            writer.println("\t\t" + sf.getDepartment() + ", " + sf.getStatus());
+			                            staff++;
+			                        }
+			                    }
+
+			                    writer.println("\nStudents");
+			                    writer.println("-----------------");
+			                    if (sort == 1) {
+			                        int student = 1;
+			                        sortGpa(people);
+			                        for (Person p : people) {
+			                            if (p instanceof Student) {
+			                                Student s = (Student) p;
+			                                writer.println("\t\t" + student + ". " + s.getName());
+			                                writer.println("\t\tID: " + s.getId());
+			                                writer.println("\t\tGpa: " + s.getGpa());
+			                                writer.println("\t\tCredit hours: " + s.getCredit());
+			                                writer.println();
+			                                student++;
+			                            }
+			                        }
+			                    } else if (sort == 2) {
+			                        int student = 1;
+			                        sortName(people);
+			                        for (Person p : people) {
+			                            if (p instanceof Student) {
+			                                Student s = (Student) p;
+			                                writer.println(student + ". " + s.getName());
+			                                writer.println("ID: " + s.getId());
+			                                writer.println("Gpa: " + s.getGpa());
+			                                writer.println("Credit hours: " + s.getCredit());
+			                                writer.println();
+			                                student++;
+			                            }
+			                        }
+			                    } else {
+			                        System.out.println(sort + " is invalid");
+			                    }
+			                } catch (Exception e) {
+			                    System.err.println("Error: " + e.getMessage());
+			                } finally {
+			                    if (writer != null) {
+			                        writer.close(); // Ensure the writer is closed properly
+			                    }
+			                }
+			                exitLoops = true;
+			                break;
+			            }
+			        } else if (yesno.equalsIgnoreCase("N")) {
+			            System.out.println("Goodbye!");
+			            exitLoops = true;
+			            break;
+			        } else {
+			            System.out.println(yesno + " is invalid");
+			        }
+			        
+			        reportCheck = true;
+			    }
 			}
 			
 			else
 				System.out.println("Invalid entry - please try again");
-			
-			
+			    System.out.println();
 		}
 	}
 	
 		
 	
 	    //Insertion method in sorting GPA
-		public static void sortGpa(ArrayList<Person> people) {
-			for(int i = 1; i < people.size(); i++) {
-				Person p = people.get(i);
-				Student s = (Student) p;
-				if(people.get(i) instanceof Student) {
-					Student thisStudent = (Student) people.get(i);
-					int j = i-1;
-					
-					
-					while(j>=0 && people.get(j) instanceof Student && (s.getGpa() < thisStudent.getGpa())){
-						people.set(j+1, people.get(j));
-						j--;
-					}
-					
-					people.set(j+1, thisStudent);
-		
-				}
-			}
-		}
+	public static void sortGpa(ArrayList<Person> people) {
+	    for (int i = 1; i < people.size(); i++) {
+	        if (people.get(i) instanceof Student) {
+	            Student thisStudent = (Student) people.get(i);
+	            int j = i - 1;
+
+	            // Compare GPA only for Student objects
+	            while (j >= 0 && people.get(j) instanceof Student) {
+	                Student prevStudent = (Student) people.get(j);
+	                if (prevStudent.getGpa() < thisStudent.getGpa()) {
+	                    people.set(j + 1, people.get(j));
+	                } else {
+	                    break;
+	                }
+	                j--;
+	            }
+
+	            people.set(j + 1, thisStudent);
+	        }
+	    }
+	}
+
 		
 		
 		//Insertion method in sorting name
-		public static void sortName(ArrayList<Person> people) {
-			for(int i = 1; i < people.size(); i++) {
-				Person p = people.get(i);
-				Student s = (Student) p;
-				if(people.get(i) instanceof Student) {
-					Student nameStudent = (Student) people.get(i);
-					int j = i-1;
-					
-					
-					while(j>=0 && people.get(j) instanceof Student && (s.getName().compareToIgnoreCase(nameStudent.getName()) < 0)){
-						people.set(j+1, people.get(j));
-						j--;
-					}
-					
-					people.set(j+1, nameStudent);
-		
-				}
-			}
-		}
+	public static void sortName(ArrayList<Person> people) {
+	    for (int i = 1; i < people.size(); i++) {
+	        if (people.get(i) instanceof Student) {
+	            Student thisStudent = (Student) people.get(i);
+	            int j = i - 1;
+
+	            // Compare names only for Student objects
+	            while (j >= 0 && people.get(j) instanceof Student) {
+	                Student prevStudent = (Student) people.get(j);
+	                if (prevStudent.getName().compareToIgnoreCase(thisStudent.getName()) < 0) {
+	                    people.set(j + 1, people.get(j));
+	                } else {
+	                    break;
+	                }
+	                j--;
+	            }
+
+	            people.set(j + 1, thisStudent);
+	        }
+	    }
+	}
+
 		
 		
 }
